@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Systematic Withdrawal Plan PDF Generator</title>
+  <style>
+    /* General styles */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    /* Header styles */
+    .header {
+      background-color: #1e3a8a;
+      padding: 16px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    
+    .logo {
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+    }
+    
+    /* Layout styles */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .card {
+      background-color: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Form styles */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+    
+    button {
+      width: 100%;
+      background-color: #1e3a8a;
+      color: white;
+      font-weight: bold;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    
+    button:hover {
+      background-color: #1e40af;
+    }
+    
+    button.green {
+      background-color: #16a34a;
+    }
+    
+    button.green:hover {
+      background-color: #15803d;
+    }
+    
+    button.blue {
+      background-color: #2563eb;
+    }
+    
+    button.blue:hover {
+      background-color: #1d4ed8;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    /* PDF preview styles */
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    
+    .pdf-preview {
+      border: 1px solid #d1d5db;
+      padding: 16px;
+      border-radius: 8px;
+    }
+    
+    .pdf-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 256px;
+      color: #9ca3af;
+    }
+    
+    .pdf-content {
+      display: none;
+    }
+    
+    .pdf-header {
+      background-color: #1e3a8a;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .pdf-logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .pdf-title {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .pdf-customer {
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .summary-label {
+      font-weight: 500;
+    }
+    
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    
+    th {
+      background-color: #f3f4f6;
+      text-align: left;
+      padding: 8px 12px;
+    }
+    
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    th:not(:first-child), td:not(:first-child) {
+      text-align: right;
+    }
+    
+    .table-footer {
+      text-align: center;
+      padding: 8px;
+    }
+    
+    .disclaimer {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">mighty</div>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <h2>Systematic Withdrawal Plan Parameters</h2>
+        
+        <div class="form-group">
+          <label for="customerName">Customer Name</label>
+          <input type="text" id="customerName" placeholder="Enter customer name">
+        </div>
+        
+        <div class="form-group">
+          <label for="corpus">Initial Corpus (₹)</label>
+          <input type="number" id="corpus" value="1000000">
+        </div>
+        
+        <div class="form-group">
+          <label for="withdrawalRate">Annual Withdrawal Rate (%)</label>
+          <input type="number" id="withdrawalRate" value="7">
+        </div>
+        
+        <div class="form-group">
+          <label for="withdrawalFrequency">Withdrawal Frequency</label>
+          <select id="withdrawalFrequency">
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="semi-annually">Semi-Annually</option>
+            <option value="annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="incrementPercent">Annual Increment (%)</label>
+          <input type="number" id="incrementPercent" value="5">
+        </div>
+        
+        <div class="form-group">
+          <label for="years">Years to Project</label>
+          <input type="number" id="years" value="30">
+        </div>
+        
+        <button id="generateBtn">Generate PDF</button>
+      </div>
+      
+      <div class="card">
+        <h2>Preview</h2>
+        
+        <div class="pdf-preview">
+          <div class="pdf-placeholder" id="pdfPlaceholder">
+            PDF preview will appear here after generation
+          </div>
+          
+          <div class="pdf-content" id="pdfContent">
+            <div class="pdf-header">
+              <div class="pdf-logo">mighty</div>
+            </div>
+            
+            <h1 class="pdf-title">Systematic Withdrawal Plan</h1>
+            
+            <p class="pdf-customer" id="pdfCustomer"></p>
+            
+            <div class="summary-item">
+              <span class="summary-label">Initial Corpus:</span>
+              <span id="pdfCorpus"></span>
+            </div>
+            
+            <div class="summary-item">
+              <span class="summary-label">Annual Withdrawal Rate:</span>
+              <span id="pdfRate"></span>
+            </div>
+            
+            <div class="summary-item">
+              <span class="summary-label">Withdrawal Frequency:</span>
+              <span id="pdfFrequency"></span>
+            </div>
+            
+            <div class="summary-item">
+              <span class="summary-label">Annual Increment:</span>
+              <span id="pdfIncrement"></span>
+            </div>
+            
+            <div class="summary-item">
+              <span class="summary-label">Total Withdrawals:</span>
+              <span id="pdfTotal"></span>
+            </div>
+            
+            <table>
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Starting Balance</th>
+                  <th>Withdrawal</th>
+                  <th>Ending Balance</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTable">
+                <!-- Results will be inserted here -->
+              </tbody>
+            </table>
+            
+            <p class="disclaimer">
+              This is a simulation based on the parameters provided. Actual results may vary depending on market conditions.
+              Generated on <span id="generatedDate"></span>
+            </p>
+          </div>
+        </div>
+        
+        <div class="button-group" id="actionButtons" style="display: none;">
+          <button class="green" id="downloadBtn">Download HTML</button>
+          <button class="blue" id="copyBtn">Copy HTML</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get form elements
+    const customerNameInput = document.getElementById('customerName');
+    const corpusInput = document.getElementById('corpus');
+    const withdrawalRateInput = document.getElementById('withdrawalRate');
+    const withdrawalFrequencyInput = document.getElementById('withdrawalFrequency');
+    const incrementPercentInput = document.getElementById('incrementPercent');
+    const yearsInput = document.getElementById('years');
+    const generateBtn = document.getElementById('generateBtn');
+    
+    // Get PDF elements
+    const pdfPlaceholder = document.getElementById('pdfPlaceholder');
+    const pdfContent = document.getElementById('pdfContent');
+    const pdfCustomer = document.getElementById('pdfCustomer');
+    const pdfCorpus = document.getElementById('pdfCorpus');
+    const pdfRate = document.getElementById('pdfRate');
+    const pdfFrequency = document.getElementById('pdfFrequency');
+    const pdfIncrement = document.getElementById('pdfIncrement');
+    const pdfTotal = document.getElementById('pdfTotal');
+    const resultsTable = document.getElementById('resultsTable');
+    const generatedDate = document.getElementById('generatedDate');
+    const actionButtons = document.getElementById('actionButtons');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    
+    // Format currency
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+      }).format(amount);
+    }
+    
+    // Calculate withdrawal plan
+    function calculateWithdrawal() {
+      const corpus = parseFloat(corpusInput.value);
+      const withdrawalRate = parseFloat(withdrawalRateInput.value);
+      const withdrawalFrequency = withdrawalFrequencyInput.value;
+      const incrementPercent = parseFloat(incrementPercentInput.value);
+      const years = parseInt(yearsInput.value);
+      
+      const annualRate = withdrawalRate / 100;
+      const frequencyMultiplier = withdrawalFrequency === 'monthly' ? 12 : 
+                                 withdrawalFrequency === 'quarterly' ? 4 : 
+                                 withdrawalFrequency === 'semi-annually' ? 2 : 1;
+      
+      const incrementRate = incrementPercent / 100;
+      
+      const results = [];
+      let currentCorpus = corpus;
+      let currentWithdrawal = (corpus * annualRate) / frequencyMultiplier;
+      
+      for (let year = 1; year <= years; year++) {
+        const yearlyWithdrawal = currentWithdrawal * frequencyMultiplier;
+        const endingBalance = currentCorpus - yearlyWithdrawal;
+        
+        results.push({
+          year,
+          startingBalance: currentCorpus,
+          withdrawal: yearlyWithdrawal,
+          endingBalance,
+        });
+        
+        // Apply increment for next year
+        currentWithdrawal = currentWithdrawal * (1 + incrementRate);
+        currentCorpus = endingBalance;
+      }
+      
+      return results;
+    }
+    
+    // Generate PDF
+    generateBtn.addEventListener('click', function() {
+      const results = calculateWithdrawal();
+      const customerName = customerNameInput.value;
+      const withdrawalFrequency = withdrawalFrequencyInput.value;
+      const years = parseInt(yearsInput.value);
+      
+      // Calculate total withdrawals
+      const totalWithdrawals = results.reduce((sum, year) => sum + year.withdrawal, 0);
+      
+      // Update PDF content
+      if (customerName) {
+        pdfCustomer.textContent = `Prepared for: ${customerName}`;
+        pdfCustomer.style.display = 'block';
+      } else {
+        pdfCustomer.style.display = 'none';
+      }
+      
+      pdfCorpus.textContent = formatCurrency(parseFloat(corpusInput.value));
+      pdfRate.textContent = `${withdrawalRateInput.value}%`;
+      pdfFrequency.textContent = withdrawalFrequency.charAt(0).toUpperCase() + withdrawalFrequency.slice(1);
+      pdfIncrement.textContent = `${incrementPercentInput.value}%`;
+      pdfTotal.textContent = `${formatCurrency(totalWithdrawals)} (over ${years} years)`;
+      
+      // Generate table rows
+      resultsTable.innerHTML = '';
+      const displayLimit = 8;
+      
+      for (let i = 0; i < Math.min(results.length, displayLimit); i++) {
+        const row = results[i];
+        const tr = document.createElement('tr');
+        
+        tr.innerHTML = `
+          <td>${row.year}</td>
+          <td>${formatCurrency(row.startingBalance)}</td>
+          <td>${formatCurrency(row.withdrawal)}</td>
+          <td>${formatCurrency(row.endingBalance)}</td>
+        `;
+        
+        resultsTable.appendChild(tr);
+      }
+      
+      // Add "and more years" row if needed
+      if (results.length > displayLimit) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td colspan="4" class="table-footer">
+            ... and ${results.length - displayLimit} more years (full details in PDF)
+          </td>
+        `;
+        resultsTable.appendChild(tr);
+      }
+      
+      // Set generated date
+      generatedDate.textContent = new Date().toLocaleDateString();
+      
+      // Show PDF content and action buttons
+      pdfPlaceholder.style.display = 'none';
+      pdfContent.style.display = 'block';
+      actionButtons.style.display = 'flex';
+    });
+    
+    // Download HTML function
+    downloadBtn.addEventListener('click', function() {
+      const customerName = customerNameInput.value;
+      const htmlContent = document.documentElement.outerHTML;
+      
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `SWP_${customerName.replace(/\s+/g, '_') || 'Customer'}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+    
+    // Copy HTML function
+    copyBtn.addEventListener('click', function() {
+      const pdfContentHtml = pdfContent.outerHTML;
+      
+      navigator.clipboard.writeText(pdfContentHtml)
+        .then(() => {
+          alert('HTML content copied to clipboard!');
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+          alert('Failed to copy HTML content. Please try again.');
+        });
+    });
+  </script>
+</body>
+</html>
