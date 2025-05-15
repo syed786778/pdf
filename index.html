@@ -328,13 +328,15 @@
         </div>
         
         <div class="button-group" id="actionButtons" style="display: none;">
-          <button class="green" id="downloadBtn">Download HTML</button>
-          <button class="blue" id="copyBtn">Copy HTML</button>
+          <button class="green" id="downloadBtn">Download PDF</button>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
   <script>
     // Get form elements
     const customerNameInput = document.getElementById('customerName');
@@ -358,7 +360,6 @@
     const generatedDate = document.getElementById('generatedDate');
     const actionButtons = document.getElementById('actionButtons');
     const downloadBtn = document.getElementById('downloadBtn');
-    const copyBtn = document.getElementById('copyBtn');
     
     // Format currency
     function formatCurrency(amount) {
@@ -469,35 +470,29 @@
       actionButtons.style.display = 'flex';
     });
     
-    // Download HTML function
+    // Download PDF function
     downloadBtn.addEventListener('click', function() {
       const customerName = customerNameInput.value;
-      const htmlContent = document.documentElement.outerHTML;
+      const { jsPDF } = window.jspdf;
       
-      const blob = new Blob([htmlContent], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `SWP_${customerName.replace(/\s+/g, '_') || 'Customer'}.html`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-    
-    // Copy HTML function
-    copyBtn.addEventListener('click', function() {
-      const pdfContentHtml = pdfContent.outerHTML;
-      
-      navigator.clipboard.writeText(pdfContentHtml)
-        .then(() => {
-          alert('HTML content copied to clipboard!');
-        })
-        .catch(err => {
-          console.error('Failed to copy: ', err);
-          alert('Failed to copy HTML content. Please try again.');
-        });
+      // Create PDF using html2canvas and jsPDF
+      html2canvas(pdfContent).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const imageWidth = canvas.width;
+        const imageHeight = canvas.height;
+        
+        // Calculate the scaling to fit the content
+        const ratio = Math.min(pageWidth / imageWidth, pageHeight / imageHeight);
+        const imgWidth = imageWidth * ratio;
+        const imgHeight = imageHeight * ratio;
+        const marginX = (pageWidth - imgWidth) / 2;
+        
+        pdf.addImage(imgData, 'PNG', marginX, 10, imgWidth, imgHeight);
+        pdf.save(`SWP_${customerName.replace(/\s+/g, '_') || 'Customer'}.pdf`);
+      });
     });
   </script>
 </body>
